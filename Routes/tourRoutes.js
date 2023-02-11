@@ -22,6 +22,8 @@ router
 // 127.0.0.1:3000/api/v1/tours/tour-stats
 router.route('/tour-stats').get(tourController.getTourStats);
 
+router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
+
 router
   .route('/')
   .get(tourController.getAllTours)
