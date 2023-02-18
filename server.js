@@ -1,5 +1,13 @@
 const dotenv = require('dotenv');
 const morgan = require('morgan');
+
+// Example uncaught exceptions  console.log(Something that does not exist)
+process.on('uncaughtException', (err) => {
+  console.log('Unhandled Rejection! Shutting down');
+  console.log(err.name, err.message);
+  process.exit(1); // compulsory
+});
+
 dotenv.config({ path: './config.env' });
 const mongoose = require('mongoose');
 const app = require('./app');
@@ -39,4 +47,14 @@ mongoose
 const port = process.env.port || 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}`);
+});
+
+// Example Database connection password is wrong
+process.on('unhandledRejection', (err) => {
+  console.log('Unhandled Rejection! Shutting down');
+  console.log(err.name, err.message);
+  server.close(() => {
+    process.exit(1); // optional
+  });
+  // 1 is for uncaught exception and 0 is for success
 });
