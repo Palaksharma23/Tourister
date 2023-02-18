@@ -58,3 +58,6 @@ process.on('unhandledRejection', (err) => {
   });
   // 1 is for uncaught exception and 0 is for success
 });
+
+// "start:dev": "nodemon server.js",
+// "start:prod": "NODE_ENV=production nodemon server.js",

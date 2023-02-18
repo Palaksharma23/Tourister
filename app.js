@@ -13,6 +13,14 @@ const app = express();
 app.use(morgan('dev')); // It return a normal middleware function as our own
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
+
+// Test middleware
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  console.log(req.headers);
+  next();
+});
+
 // app.get('/', (req, res) => {
 //   res
 //     .status(200)
