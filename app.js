@@ -1,5 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
+
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./Routes/tourRoutes');
@@ -8,6 +10,13 @@ const userRouter = require('./Routes/userRoutes');
 const app = express();
 // console.log(app.get('env'));
 // console.log(process.env);
+
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many requests from this IP, please try again in an hour',
+});
+app.use('/api', limiter);
 
 // 3rd party middleware = morgan
 app.use(morgan('dev')); // It return a normal middleware function as our own
