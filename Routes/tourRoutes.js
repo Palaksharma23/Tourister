@@ -1,7 +1,16 @@
 const express = require('express');
 const tourController = require('./../controllers/tourController');
 const authController = require('./../controllers/authController');
+const reviewController = require('./../controllers/reviewController');
+const reviewRouter = require('./../Routes/reviewRoutes');
 const router = express.Router();
+
+// Nested Routes
+
+// POST /tours/tour_id/reviews
+// GET /tours/tour_id/reviews
+
+router.use('/:tourId/reviews', reviewRouter);
 
 // router.param('id', (req, res, next, val) => {
 //   next();
