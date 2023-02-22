@@ -126,6 +126,7 @@ const tourSchema = new mongoose.Schema(
 // tourSchema.index({ price: 1 }); // 1 ascending -1 descending
 tourSchema.index({ price: 1, ratingsAverage: -1 });
 tourSchema.index({ slug: 1 });
+tourSchema.index({ startLocation: '2dsphere' });
 // Virtual properties
 
 tourSchema.virtual('durationWeeks').get(function () {
@@ -192,12 +193,12 @@ tourSchema.post(/^find/, function (docs, next) {
 // AGGREGATION MIDDLEWARE
 
 // In normal AGGREGATION secretTour was also being included
-tourSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } }); // unshift: to add an element at the beginning of an array
+// tourSchema.pre('aggregate', function (next) {
+//   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } }); // unshift: to add an element at the beginning of an array
 
-  console.log(this.pipeline());
-  next();
-});
+//   console.log(this.pipeline());
+//   next();
+// });
 
 const Tour = mongoose.model('Tour', tourSchema);
 
