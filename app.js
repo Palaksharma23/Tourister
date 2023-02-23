@@ -43,6 +43,7 @@ app.use(morgan('dev')); // It return a normal middleware function as our own
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ encoded: true, limit: '10kb' }));
 app.use(cookieParser());
 
 // Data sanitization against NoSQl query injection
