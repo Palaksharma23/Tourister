@@ -6,12 +6,14 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./Routes/tourRoutes');
 const userRouter = require('./Routes/userRoutes');
 const reviewRouter = require('./Routes/reviewRoutes');
+const viewRouter = require('./Routes/viewRoutes');
 
 const app = express();
 
@@ -41,6 +43,7 @@ app.use(morgan('dev')); // It return a normal middleware function as our own
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
+app.use(cookieParser());
 
 // Data sanitization against NoSQl query injection
 app.use(mongoSanitize());
@@ -51,29 +54,10 @@ app.use(xss());
 // Prevent parameter pollution
 app.use(hpp());
 
-app.get('/', (req, res) => {
-  res.status(200).render('base', {
-    tour: 'The Forest Hiker',
-    user: 'Jonas',
-  });
-});
-
-app.get('/overview', (req, res) => {
-  res.status(200).render('overview', {
-    title: 'All Tours',
-  });
-});
-
-app.get('/tour', (req, res) => {
-  res.status(200).render('tour', {
-    title: 'The Forest Hiker Tour',
-  });
-});
-
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.headers);
+  console.log(req.cookies);
   next();
 });
 
@@ -104,6 +88,8 @@ app.use((req, res, next) => {
 // DELETE THE Tours Data
 
 // app.delete('/api/v1/tours/:id', deleteTour);
+
+app.use('/', viewRouter);
 
 // const tourRouter = express.Router();
 
