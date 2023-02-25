@@ -22,7 +22,7 @@ export const bookTour = async (tourId) => {
     //works as expected
     window.location.replace(session.data.session.url);
   } catch (err) {
-    // console.log(err);
+    console.log(err);
     showAlert('error', err);
   }
 };
