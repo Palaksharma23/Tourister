@@ -3,8 +3,8 @@ const morgan = require('morgan');
 
 // Example uncaught exceptions  console.log(Something that does not exist)
 process.on('uncaughtException', (err) => {
-  console.log('Unhandled Rejection! Shutting down');
-  console.log(err.name, err.message);
+  // console.log('Unhandled Rejection! Shutting down');
+  // console.log(err.name, err.message);
   process.exit(1); // compulsory
 });
 
@@ -24,7 +24,7 @@ mongoose
   })
   .then((con) => {
     // console.log(con.connections);
-    console.log('DB connection successful');
+    // console.log('DB connection successful');
   });
 
 // const Tour = mongoose.model('Tour', tourSchema);
@@ -46,14 +46,14 @@ mongoose
 
 const port = process.env.port || 3000;
 const server = app.listen(port, () => {
-  console.log(`App running on port ${port}`);
-  console.log(process.env.NODE_ENV);
+  // console.log(`App running on port ${port}`);
+  // console.log(process.env.NODE_ENV);
 });
 
 // Example Database connection password is wrong
 process.on('unhandledRejection', (err) => {
-  console.log('Unhandled Rejection! Shutting down');
-  console.log(err.name, err.message);
+  // console.log('Unhandled Rejection! Shutting down');
+  // console.log(err.name, err.message);
   server.close(() => {
     process.exit(1); // optional
   });

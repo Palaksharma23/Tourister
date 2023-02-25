@@ -143,7 +143,7 @@ tourSchema.virtual('reviews', {
 // DOCUMENT MIDDLEWARE: runs before .save() and .create() not on .update or .insertMany()
 
 tourSchema.pre('save', function (next) {
-  console.log(this);
+  // console.log(this);
   this.slug = slugify(this.name, { lower: true });
   next();
 });
@@ -186,7 +186,7 @@ tourSchema.pre(/^find/, function (next) {
 });
 
 tourSchema.post(/^find/, function (docs, next) {
-  console.log(`Query took ${Date.now() - this.start} milliseconds!`);
+  // console.log(`Query took ${Date.now() - this.start} milliseconds!`);
   next();
 });
 

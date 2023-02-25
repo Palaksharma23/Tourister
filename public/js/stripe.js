@@ -10,10 +10,8 @@ export const bookTour = async (tourId) => {
       'pk_test_51MfJG8SCzhRA5wdmNqcZePlltnz4NRvTpIx0rOjUhaPHIXQcAwW4d2Fy1fWeyumMDWRtywm3CZTtcjzmDBxoFSxS00t76PhfCO'
     );
 
-    const session = await axios(
-      `http://localhost:3000/api/v1/bookings/checkout-session/${tourId}`
-    );
-    console.log(session);
+    const session = await axios(`/api/v1/bookings/checkout-session/${tourId}`);
+    // console.log(session);
 
     // 2) Create checkout form + chanre credit card
 
@@ -24,7 +22,7 @@ export const bookTour = async (tourId) => {
     //works as expected
     window.location.replace(session.data.session.url);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     showAlert('error', err);
   }
 };

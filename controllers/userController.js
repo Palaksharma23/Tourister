@@ -72,8 +72,8 @@ exports.getMe = (req, res, next) => {
 };
 
 exports.updateMe = async (req, res, next) => {
-  console.log(req.file);
-  console.log(req.body);
+  // console.log(req.file);
+  // console.log(req.body);
 
   // 1) Create an error if the user tries to update the password
   if (req.body.password || req.body.passwordConfirm) {
