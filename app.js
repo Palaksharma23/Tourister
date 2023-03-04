@@ -23,16 +23,12 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 //  Serving static files
-// app.use(express.static(`${__dirname}/public`));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Set security HTTP headers
+// Security HTTP headers
 app.use(helmet());
 
-// console.log(app.get('env'));
-// console.log(process.env);
-
-// limit requests from same API
+// limiting requests from same API
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
@@ -40,10 +36,9 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-// 3rd party middleware = morgan
-app.use(morgan('dev')); // It return a normal middleware function as our own
 
-// Body parser, reading data from body into req.body
+app.use(morgan('dev')); 
+
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ encoded: true, limit: '10kb' }));
 app.use(cookieParser());
@@ -54,77 +49,28 @@ app.use(mongoSanitize());
 // Data sanitization against XSS
 app.use(xss());
 
-// Prevent parameter pollution
+// Preventing parameter pollution
 app.use(hpp());
 app.use(compression());
 
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  // console.log(req.cookies);
   next();
 });
 
-// app.get('/', (req, res) => {
-//   res
-//     .status(200)
-//     .json({ message: 'Hello from the server side!', app: 'Natours' });
-// });
-
-// GETTING ALL THE Tours
-
-// app.get('/api/v1/tours', getAllTours);
-
-// POSTING Tours
-
-// app.post('/api/v1/tours', createTour);
-
-// GETTING ONLY ONE Tour
-
-// /:y? Optional Parameter by appending a question mark in it
-
-// app.get('/api/v1/tours/:id', getTour);
-
-// UPDATE THE Tours Data
-
-// app.patch('/api/v1/tours/:id', updateTour);
-
-// DELETE THE Tours Data
-
-// app.delete('/api/v1/tours/:id', deleteTour);
-
 app.use('/', viewRouter);
 
-// const tourRouter = express.Router();
-
 app.use('/api/v1/tours', tourRouter);
-
-// User Routes
-
-// const userRouter = express.Router();
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/bookings', bookingRouter);
 
 app.all('*', (req, res, next) => {
-  // res.status(404).json({
-  //   status: 'fail',
-  //   message: `Can't find ${req.originalUrl} on this server}`,
-  // });
 
-  // const err = new Error(`Can't find ${req.originalUrl} on this server}`);
-  // err.status = 'fail';
-  // err.statusCode = 404;
-  // next(err);
-
-  next(new AppError(`Can't find ${req.originalUrl} on this server}`, 404)); // It will skip all the middlewares and will directly go to Error middleware
+  next(new AppError(`Can't find ${req.originalUrl} on this server}`, 404)); 
 });
-
-// 4 arguments wala is always error handling middleware
 
 app.use(globalErrorHandler);
 module.exports = app;
-
-// Note::
-// Middlewares are executed in the order they are written in the code

@@ -5,11 +5,8 @@ const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
-  // 1) Get the currently booked tour
   const tour = await Tour.findById(req.params.tourId);
-  // console.log(tour);
 
-  // 2) Create checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     success_url: `${req.protocol}://${req.get('host')}/my-tours/?tour=${
@@ -35,7 +32,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     mode: 'payment',
   });
 
-  // 3) Create session as response
   res.status(200).json({
     status: 'success',
     session,
@@ -43,7 +39,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 });
 
 exports.createBookingCheckout = catchAsync(async (req, res, next) => {
-  // This is only TEMPORARY, because it's UNSECURE: everyone can make bookings without paying
   const { tour, user, price } = req.query;
 
   if (!tour || !user || !price) return next();

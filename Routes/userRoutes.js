@@ -11,20 +11,10 @@ router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
 
 router.use(authController.protect);
-// It will add this to every route after this point
 
-router.patch(
-  '/updateMyPassword',
-  // authController.protect,
-  authController.updatePassword
-);
+router.patch('/updateMyPassword', authController.updatePassword);
 
-router.get(
-  '/me',
-  // authController.protect,
-  userController.getMe,
-  userController.getUser
-);
+router.get('/me', userController.getMe, userController.getUser);
 router.patch(
   '/updateMe',
   userController.uploadUserPhoto,

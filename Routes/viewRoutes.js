@@ -5,13 +5,6 @@ const bookingController = require('../controllers/bookingController');
 
 const router = express.Router();
 
-// router.get('/', (req, res) => {
-//   res.status(200).render('base', {
-//     tour: 'The Forest Hiker',
-//     user: 'Jonas',
-//   });
-// });
-
 router.get('/', authController.isLoggedIn, viewsController.getOverview);
 
 router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour);

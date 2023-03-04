@@ -5,19 +5,8 @@ const catchAsync = require('../utils/catchAsync');
 const User = require('./../models/userModel');
 const factory = require('./handlerFactory');
 
-// const multerStorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'public/img/users');
-//   },
-//   filename: (req, file, cb) => {
-//     const ext = file.mimetype.split('/')[1];
-//     cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-//   },
-// });
-
 const multerStorage = multer.memoryStorage();
 
-// True, if file is am image ( kind of file you want to upload ) else false
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image')) {
     cb(null, true);
@@ -54,17 +43,6 @@ const filterObj = (obj, ...allowedFields) => {
   });
   return newObj;
 };
-// exports.getAllUsers = catchAsync(async (req, res, next) => {
-//   const users = await User.find();
-
-//   res.status(200).json({
-//     status: 'success',
-//     results: users.length,
-//     data: {
-//       users,
-//     },
-//   });
-// });
 
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
@@ -72,10 +50,6 @@ exports.getMe = (req, res, next) => {
 };
 
 exports.updateMe = async (req, res, next) => {
-  // console.log(req.file);
-  // console.log(req.body);
-
-  // 1) Create an error if the user tries to update the password
   if (req.body.password || req.body.passwordConfirm) {
     return next(
       new AppError(
@@ -85,17 +59,13 @@ exports.updateMe = async (req, res, next) => {
     );
   }
 
-  // 2) Filtered out unwanted fields names that are not allowed to be updated
   const filteredBody = filterObj(req.body, 'name', 'email');
   if (req.file) filteredBody.photo = req.file.filename;
 
-  // 2) Update the user document
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true,
   });
-  // user.name = 'Jonas';
-  // await user.save();
 
   res.status(200).json({
     status: 'success',
@@ -114,13 +84,6 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.getUser = (req, res) => {
-//   res.status(500).json({
-//     status: 'error',
-//     message: 'this route is not yet defined',
-//   });
-// };
-
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',
@@ -128,23 +91,8 @@ exports.createUser = (req, res) => {
   });
 };
 
-// exports.updateUser = (req, res) => {
-//   res.status(500).json({
-//     status: 'error',
-//     message: 'this route is not yet defined',
-//   });
-// };
-
-// exports.deleteUser = (req, res) => {
-//   res.status(500).json({
-//     status: 'error',
-//     message: 'this route is not yet defined',
-//   });
-// };
-
 exports.getUser = factory.getOne(User);
 exports.getAllUsers = factory.getAll(User);
 
-// Do NOT update passwords with this!
 exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOne(User);

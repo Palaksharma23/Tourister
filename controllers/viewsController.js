@@ -5,11 +5,8 @@ const Booking = require('../models/bookingModel');
 const User = require('../models/userModel');
 
 exports.getOverview = catchAsync(async (req, res, next) => {
-  // 1) Get Tour data from collection
   const tours = await Tour.find();
 
-  // 2) Build Template
-  // 3) Render that template using the tour data from 1)
   res.status(200).render('overview', {
     title: 'All Tours',
     tours,
@@ -17,7 +14,6 @@ exports.getOverview = catchAsync(async (req, res, next) => {
 });
 
 exports.getTour = catchAsync(async (req, res, next) => {
-  // 1) Get the data, for the requested tour (including reviews and guides)
   const tour = await Tour.findOne({ slug: req.params.slug }).populate({
     path: 'reviews',
     fields: 'review rating user',
@@ -27,8 +23,6 @@ exports.getTour = catchAsync(async (req, res, next) => {
     return next(new AppError('There is no tour with that name.'));
   }
 
-  // 2) Build template
-  // 3) Render template using data from 1)
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
     tour,
@@ -54,10 +48,8 @@ exports.getAccount = (req, res) => {
 };
 
 exports.getMyTours = catchAsync(async (req, res, next) => {
-  // 1) Find all bookings
   const bookings = await Booking.find({ user: req.user.id });
 
-  // 2) Find tours with the returned IDs
   const tourIDs = bookings.map((el) => el.tour);
   const tours = await Tour.find({ _id: { $in: tourIDs } });
 
@@ -68,7 +60,6 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
 });
 
 exports.updateUserData = catchAsync(async (req, res, next) => {
-  // console.log("user Updated", req.body);
   const updatedUser = await User.findByIdAndUpdate(
     req.user.id,
     {
