@@ -13,7 +13,7 @@ Tourister is a website that helps in managing Tours. It streamlines the planning
 <br>
 
 ## Deployed Link
-<b>You can  check the deployed website here 👉: </b> [Tourister](https://tourapp-85xf.onrender.com)
+<b>You can  check the deployed website here 👉: </b> [Tourister](https://touristerapp.onrender.com/)
 
 
 ## Technologies and Features
