@@ -1,7 +1,6 @@
 
-﻿
 <div align="center">
-<img src="https://i.ibb.co/pWPRk2n/Tourister.jpg" alt="moja global logo" height ="auto" width="400" />
+<img src="https://i.ibb.co/pWPRk2n/Tourister.jpg" alt="Tourister logo" height ="auto" width="400" />
 <br>
   <h1>Tourister✈</h1>
   <p>
@@ -35,6 +34,29 @@ This project consists of wide variety of advanced features:
 1) Fast, feature rich REST API (includes filters, sorts, pagination, and much more)
 2) Security Features such as Rate Limiting, Password Encryption, etc.
 <br>
+
+## Top-level directory structure
+
+    .
+    ├── controllers             # This folder contains the controllers of the application. These controllers handle incoming requests from clients, interact with the model to retrieve or update data, and send responses back to the client.
+    ├── models                  # This folder handles the data and manages the schema of the data to be stored in the database.
+    ├── public                  # This folder handles images, JavaScript, and CSS that are related to the website and can be accessed by the client.
+    ├── Routes                  # This folder handles the routes of the application, determining what actions need to be performed for specific routes.
+    ├── utils                   # This folder manages the utility files that contain classes used throughout the website.
+    ├── views                   # This folder manages the templates used to generate the view of the website.
+    ├── .eslintrc.json                   
+    ├── .gitignore                   
+    ├── .prettierrc                 
+    ├── app.js                    
+    ├── package-lock.json                     
+    ├── package.json
+    ├── README.md                    
+    └── server.js
+
+<div align="center">
+<img src="https://i.ibb.co/BK8KLHM/MVC-Architecture.jpg" alt="mvc architecture" height="400"/>
+</div>
+<br/>
 
 <table>
   <tr>
@@ -115,6 +137,11 @@ To start the server in development mode
 
 ```
   npm run dev 
+```
+
+For monitoring changes in the development mode, create a new terminal and run the following command in the directory
+``` 
+  npm run watch:js
 ```
 
 To start the server in production mode
